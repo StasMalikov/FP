@@ -1,9 +1,6 @@
 {-# LANGUAGE MultiWayIf #-}
 module Tr
 where
---     ( CharSet
---     , tr
---     ) where
 
 import Data.Maybe
 
@@ -34,8 +31,7 @@ tr1 _inset _outset xs =
                 in
                     test xs replacements
             else 
-                "delete"
-                -- testDel xs _inset
+                testDel xs _inset
         else "Error: invalid params"
 
 testDel str repl =
@@ -43,18 +39,18 @@ testDel str repl =
         then 
             let result = test2Del (head str) repl
             in
-                if null result
-                    then result
-                    else [head result]
+                if | null result -> result
+                   | length result /= length repl -> tail ['1']
+                   | otherwise -> [head result] 
         else testDel [head str] repl ++ testDel (tail str) repl
 
-test2Del char repm =
-    if length repm == 1
+test2Del char repl =
+    if length repl == 1
         then
-            if char == head repm
+            if char == head repl
                 then tail ['1']
-                else char
-        else test2Del char [head repm] ++ test2Del char (tail repm)
+                else [char]
+        else test2Del char [head repl] ++ test2Del char (tail repl)
 
 validDel p1 char =
     if null p1
