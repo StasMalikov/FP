@@ -31,13 +31,33 @@ main = hspec $ describe "Testing tr" $ do
       it "abc -> d" $
         tr' "abc" "d" "abcd" `shouldBe` "dddd"
 
+    describe "tr quick-check" $
+      it "empty input is identity" $ property prop_empty_id
+
     describe "empty xs set" $
       it "abc -> d" $
         tr' "abc" "d" "" `shouldBe` ""
 
-    describe "tr quick-check" $
-      it "empty input is identity" $ property prop_empty_id
-      
+    describe "empty _inset" $
+      it "abc -> d" $
+        tr' "" "d" "text" `shouldBe` "text"
+
+    describe "translate example 1" $
+      it "abc -> d" $
+        tr' "text" "123" "example text part 1" `shouldBe` "23ampl2 1231 par1 1"
+
+    describe "translate example 2" $
+      it "abc -> d" $
+        tr' "kbq" "123" "example text part 2" `shouldBe` "example text part 2"  
+
+    describe "delete example" $
+      it "abc -> d" $
+        tr' "text" "" "example text part 1" `shouldBe` "ampl  par 1"
+
+    describe "delete example 2" $
+      it "abc -> d" $
+        tr' "kbq" "" "example text part 2" `shouldBe` "example text part 2"
+
 -- | An example QuickCheck test. Tests the invariant that `tr` with an empty
 -- input string should produce and empty output string.
 prop_empty_id :: CharSet' -> CharSet' -> Bool
