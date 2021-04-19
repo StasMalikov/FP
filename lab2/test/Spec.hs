@@ -31,6 +31,10 @@ main = hspec $ describe "Testing tr" $ do
       it "abc -> d" $
         tr' "abc" "d" "abcd" `shouldBe` "dddd"
 
+    describe "empty xs set" $
+      it "abc -> d" $
+        tr' "abc" "d" "" `shouldBe` ""
+
     describe "tr quick-check" $
       it "empty input is identity" $ property prop_empty_id
       
@@ -39,4 +43,3 @@ main = hspec $ describe "Testing tr" $ do
 prop_empty_id :: CharSet' -> CharSet' -> Bool
 prop_empty_id (NonEmpty set1) (NonEmpty set2)
   = tr' set1 set2 "" == ""
-
