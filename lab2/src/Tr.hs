@@ -6,19 +6,12 @@ import Data.Maybe
 
 type CharSet = String
 
-
-testM :: String -> String
-testM n = 
-    if | True -> ""
-       | False -> ""
-       | otherwise -> n
-
 tr :: CharSet -> Maybe CharSet -> String -> String
 tr _inset _outset xs =
     if | null xs -> ""
        | null _inset -> xs
        | otherwise ->
-            let outsetValue = fromMaybe "" _outset
+            let outsetValue = executeMaybe _outset
             in
                 if not (null outsetValue)
                     then 
@@ -28,6 +21,11 @@ tr _inset _outset xs =
                             translateMode xs replacements
                     else 
                         deleteMode xs _inset
+
+executeMaybe (Just x) = x
+executeMaybe Nothing  = ""
+
+-- let outsetValue = fromMaybe "" _outset
 
 deleteMode str repl =
     if length str == 1
